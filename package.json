@@ -1,0 +1,20 @@
+{
+  "name": "seraph-blog",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "seraph-model": "~0.4.13",
+    "disposable-seraph": "~0.2.7",
+    "express": "~3.4.0",
+    "seraph-resource": "~0.2.9",
+    "seraph": "~0.6.7",
+    "jade": "~0.35.0"
+  }
+}

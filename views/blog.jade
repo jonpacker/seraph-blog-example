@@ -1,0 +1,89 @@
+doctype 5
+html(lang='en')
+  head
+    title= Blog
+    link(href='http://fonts.googleapis.com/css?family=Trocchi|Old+Standard+TT:400italic', rel='stylesheet', type='text/css')
+    style(type='text/css').
+      body {
+        width: 60%;
+        min-width: 600px;
+        margin: 0 auto;
+        font-family: Trocchi, serif;
+        font-size: 20px;
+        line-height: 24px;
+        text-rendering: optimizeLegibility;
+      }
+
+      h1 {
+        font-weight: 400;
+        font-size: 56px;
+        text-transform: uppercase;
+        font-style: italic;
+        font-family: "Old Standard TT", serif;
+        line-height: 100%;
+      } 
+
+      .entry {
+        padding: 50px 0px;
+      }
+
+      .new.entry {
+        border-top: 2px dashed #eee;
+      }
+
+      input, textarea {
+        font-size: 20px;
+        line-height: 24px;
+        padding: 20px;
+        background-color: #eee;
+        border-radius: 5px;
+        font-family: Trocchi, sans-serif;
+        width: 100%;
+        border: none;
+        margin: 10px 0px;
+        box-sizing: border-box;
+      }
+
+      input.tag {
+        width: 30%;
+        margin-right: 5%;
+      }
+
+      input.tag:last-child {
+        margin-right: 0%;
+      }
+
+      textarea {
+        height: 400px;
+      }
+
+      input.submit {
+        width: 150px;
+        background-color: orange;
+        color: white;
+        display: block;
+      }
+
+  body
+    .entry
+      h1 This is a test
+      p omg omg omg omg omgogm lololololol.
+    .entry.new
+      h3 Create a new entry
+      form(action='/api/entry', method='POST')
+        h5 Who are you?
+        input(name='author[name]', placeholder='Name')
+        input(name='author[email]', type='email', placeholder='Email')
+        input(name='author[website]', placeholder='Website')
+
+        h5 What do you know?
+        input(name='title', placeholder='Entry Title')
+        textarea(name='content')
+
+        h5 What was that about?
+        .tags 
+          input.tag(name='tags[0][tag]', placeholder='Tag 1')
+          input.tag(name='tags[1][tag]', placeholder='Tag 2')
+          input.tag(name='tags[2][tag]', placeholder='Tag 3')
+
+        input.submit(type='submit', value='Post')
