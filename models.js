@@ -1,5 +1,7 @@
 var Model = require('seraph-model');
 var db = require('seraph')('http://localhost:7474');
+var moment = require('moment');
+var marked = require('marked');
 
 var BlogEntry = exports.BlogEntry = Model(db, 'entry');
 var Tag = exports.Tag = Model(db, 'tag');
@@ -12,6 +14,13 @@ BlogEntry.useTimestamps(); // automatically adds 'created'/'updated' fields
 BlogEntry.compose(Tag, 'tags', 'tagged', true);
 BlogEntry.compose(Person, 'author', 'written_by');
 BlogEntry.compose(Comment, 'comments', 'has_comment', true);
+BlogEntry.addComputedField('prettyCreated', function(entry) {
+  var age = moment.duration(entry.created - moment().unix(), 'seconds');
+  return age.humanize(true); 
+});
+BlogEntry.addComputedField('renderedContent', function(entry, callback) {
+  marked(entry.content, {}, callback);
+});
 
 // Set up Comment
 Comment.fields = ['content'];

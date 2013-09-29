@@ -10,7 +10,6 @@ html(lang='en')
         margin: 0 auto;
         font-family: Trocchi, serif;
         font-size: 20px;
-        line-height: 24px;
         text-rendering: optimizeLegibility;
       }
 
@@ -22,6 +21,10 @@ html(lang='en')
         font-family: "Old Standard TT", serif;
         line-height: 100%;
       } 
+
+      .entry .content {
+        line-height: 180%;
+      }
 
       .entry {
         padding: 50px 0px;
@@ -64,10 +67,43 @@ html(lang='en')
         display: block;
       }
 
+      .meta {
+        padding: 20px 0px;
+        border-top: 1px solid #eee;
+        font-size: 14px;
+        color: #ccc;
+      }
+
+      a {
+        color: orange;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      span.tag {
+        padding: 3px;
+        border: 1px solid #ccc;
+        margin-right: 5px;
+      }
+      span.tag:not(:last-child):after {
+        content: ', ';
+      }
+
   body
-    .entry
-      h1 This is a test
-      p omg omg omg omg omgogm lololololol.
+    each entry in entries
+      .entry
+        h1= entry.title
+        .content!= entry.renderedContent
+        .meta
+          | Posted #{entry.prettyCreated} by 
+          a(href="mailto:#{entry.author.email}")= entry.author.name
+          |  under 
+          span.tags
+            each tag in entry.tags
+              span.tag= tag.tag
     .entry.new
       h3 Create a new entry
       form(action='/api/entry', method='POST')
