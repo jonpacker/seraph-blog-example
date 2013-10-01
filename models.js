@@ -11,9 +11,9 @@ var Comment = exports.Comment = Model(db, 'comment');
 // Set up BlogEntry
 BlogEntry.fields = ['title', 'content'];
 BlogEntry.useTimestamps(); // automatically adds 'created'/'updated' fields
-BlogEntry.compose(Tag, 'tags', 'tagged', true);
+BlogEntry.compose(Tag, 'tags', 'tagged', {many: true});
 BlogEntry.compose(Person, 'author', 'written_by');
-BlogEntry.compose(Comment, 'comments', 'has_comment', true);
+BlogEntry.compose(Comment, 'comments', 'has_comment', {many: true});
 BlogEntry.addComputedField('prettyCreated', function(entry) {
   var age = moment.duration(entry.created - moment().unix(), 'seconds');
   return age.humanize(true); 
@@ -26,6 +26,13 @@ BlogEntry.addComputedField('renderedContent', function(entry, callback) {
 Comment.fields = ['content'];
 Comment.useTimestamps();
 Comment.compose(Person, 'author', 'written_by');
+Comment.addComputedField('prettyCreated', function(comment) {
+  var age = moment.duration(comment.created - moment().unix(), 'seconds');
+  return age.humanize(true); 
+});
+Comment.addComputedField('renderedContent', function(comment, callback) {
+  marked(comment.content, {}, callback);
+});
 
 // Set up Person
 Person.fields = ['name', 'email', 'website'];

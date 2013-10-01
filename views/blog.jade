@@ -34,6 +34,10 @@ html(lang='en')
         border-top: 2px dashed #eee;
       }
 
+      .comment {
+        font-size: 0.8em;
+      }
+
       input, textarea {
         font-size: 20px;
         line-height: 24px;
@@ -62,7 +66,7 @@ html(lang='en')
 
       input.submit {
         width: 150px;
-        background-color: orange;
+        background-color: orange !important;
         color: white;
         display: block;
       }
@@ -88,9 +92,26 @@ html(lang='en')
         border: 1px solid #ccc;
         margin-right: 5px;
       }
+
       span.tag:not(:last-child):after {
         content: ', ';
       }
+
+      .add-comment input, .add-comment textarea {
+        font-size: 0.8em;
+        padding: 8px;
+        background-color: #fff;
+      }
+
+      .add-comment {
+        background-color: #eee;
+        padding: 20px 50px;
+      }
+
+      .comment {
+        margin-bottom: 40px;
+      }
+
 
   body
     each entry in entries
@@ -104,6 +125,26 @@ html(lang='en')
           span.tags
             each tag in entry.tags
               span.tag= tag.tag
+        h3 Comments
+        if !entry.comments
+          | None yet!
+        else
+          each comment in entry.comments
+            .comment
+              .author
+                a(href="mailto:#{comment.author.email}")= comment.author.name
+                |  says...
+              .content!= comment.renderedContent
+              .meta= comment.prettyCreated
+
+        form.add-comment(action='/api/entry/#{entry.id}/comments', method='POST')
+          h5 Got something to add?
+          input(name='author[name]', placeholder='Name')
+          input(name='author[email]', type='email', placeholder='Email')
+          input(name='author[website]', placeholder='Website (optional)')
+          textarea(name='content')
+          input.submit(type='submit', value='Post')
+
     .entry.new
       h3 Create a new entry
       form(action='/api/entry', method='POST')
